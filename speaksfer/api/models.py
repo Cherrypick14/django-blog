@@ -1,6 +1,19 @@
 from django.db import models
+from django.conf import settings
+
 
 # Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+    )
+    bio = models.CharField(max_length=240, blank=True)
+    image= models.ImageField(default='default.jpg', upload_to='profile_pics')
+    following=models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
 class Post(models.Model):
 
     class Meta:
